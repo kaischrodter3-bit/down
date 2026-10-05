@@ -1,7 +1,7 @@
 'use strict';
 
 // Replace this public URL with the workers.dev URL printed by `wrangler deploy`.
-const API_BASE = 'https://postfach-upload.kaischrodter3-bit.workers.dev';
+const API_BASE = 'https://kaischrodter3-bit.github.io/down/';
 const TOKEN_KEY = 'postfach_access_token';
 const state = { token: sessionStorage.getItem(TOKEN_KEY), uploads: [], busy: false };
 const authView = document.getElementById('auth-view');
