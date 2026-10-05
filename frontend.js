@@ -1,7 +1,8 @@
 'use strict';
 
-// Replace this public URL with the workers.dev URL printed by `wrangler deploy`.
-const API_BASE = 'https://kaischrodter3-bit.github.io/down/';
+// Cloudflare Worker URL created by `wrangler deploy`.
+// The site itself is hosted on GitHub Pages, but the API lives on the worker domain.
+const API_BASE = 'https://postfach-upload.kaischrodter3-bit.workers.dev';
 const TOKEN_KEY = 'postfach_access_token';
 const state = { token: sessionStorage.getItem(TOKEN_KEY), uploads: [], busy: false };
 const authView = document.getElementById('auth-view');
@@ -9,7 +10,7 @@ const dashboardView = document.getElementById('dashboard-view');
 const authForm = document.getElementById('unlock-form');
 const authMessage = document.getElementById('auth-message');
 const icons = {
-  file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10z"/><path d="M13 3v7h7M[...]
+  file: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M13 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10z"/><path d="M13 3v7h7M"/>
   trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M10 11v6m4-6v6M5.5 7l1 14h11l1-14M9 7V4h6v3"/></svg>'
 };
 
@@ -82,7 +83,7 @@ function renderUploads() {
     const date = new Date(file.uploadedAt).toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' });
     const sent = file.status === 'email_sent';
     const status = sent ? 'Per E-Mail gesendet' : 'E-Mail fehlgeschlagen';
-    return `<article class="file-row"><div class="file-info"><span class="file-type-icon">${icons.file}</span><div class="file-details"><div class="file-name" title="${escapeHtml(file.originalName)}">${escapeHtml(file.originalName)}</div><div class="file-meta">${formatSize(file.size)} • ${date} • ${status}</div></div></div><button class="delete-button" data-delete="${escapeHtml(file.id)}" aria-label="Löschen">${icons.trash}</button></article>`;
+    return `<article class="file-row"><div class="file-info"><span class="file-type-icon">${icons.file}</span><div class="file-details"><div class="file-name" title="${escapeHtml(file.originalName)}">${escapeHtml(file.originalName)}</div><div class="file-meta">${formatSize(file.size)} · ${date} · ${status}</div></div></div><button class="icon-button" data-delete="${file.id}" title="Löschen" aria-label="Upload ${escapeHtml(file.originalName)} löschen">${icons.trash}</button></article>`;
   }).join('');
 }
 
